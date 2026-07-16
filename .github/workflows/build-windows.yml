@@ -1,0 +1,33 @@
+name: Build Windows Executable
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "server/**"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: server
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Instalar dependências
+        run: pip install -r requirements.txt pyinstaller
+
+      - name: Gerar executável
+        run: pyinstaller --onefile --name nfe-scanner-server server.py
+
+      - name: Publicar artefato
+        uses: actions/upload-artifact@v4
+        with:
+          name: nfe-scanner-server-windows
+          path: server/dist/nfe-scanner-server.exe
