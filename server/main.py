@@ -7,18 +7,17 @@ from flask import Flask, request
 
 app = Flask(__name__)
 
-# ajuste esse caminho pra onde o adb.exe estiver, relativo ao .exe
-ADB_PATH = Path(__file__).parent / "platform-tools" / "adb.exe"
+ADB_BINARY = "adb.exe" if platform.system() == "Windows" else "adb"
+ADB_PATH = Path(__file__).parent / "platform-tools" / ADB_BINARY
+
 
 def adb_reverse_watch():
-    """Mantém o adb reverse ativo, reaplicando sempre que o celular reconectar."""
     while True:
         subprocess.run([str(ADB_PATH), "wait-for-device"])
         time.sleep(1)
         subprocess.run([str(ADB_PATH), "reverse", "tcp:3000", "tcp:3000"])
         print("adb reverse aplicado")
 
-        # fica checando até o celular sumir, pra então voltar a esperar
         while True:
             result = subprocess.run(
                 [str(ADB_PATH), "get-state"],
@@ -28,6 +27,7 @@ def adb_reverse_watch():
                 break
             time.sleep(2)
         print("celular desconectado, aguardando reconexão")
+
 
 def type_and_enter(code: str):
     if platform.system() == "Windows":
@@ -40,6 +40,7 @@ def type_and_enter(code: str):
     else:
         raise NotImplementedError("Sistema operacional não suportado")
 
+
 @app.post("/scan")
 def scan():
     code = request.json["code"]
@@ -47,10 +48,11 @@ def scan():
     type_and_enter(code)
     return {"ok": True}
 
+
 if __name__ == "__main__":
     if ADB_PATH.exists():
         threading.Thread(target=adb_reverse_watch, daemon=True).start()
     else:
-        print(f"Aviso: adb.exe não encontrado em {ADB_PATH}, reverse não será automático")
+        print(f"Aviso: adb não encontrado em {ADB_PATH}, reverse não será automático")
 
     app.run(host="127.0.0.1", port=3000)
