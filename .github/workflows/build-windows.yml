@@ -24,7 +24,7 @@ jobs:
         run: pip install -r requirements.txt pyinstaller
 
       - name: Gerar executável
-        run: pyinstaller --onefile --name nfe-scanner-server server.py
+        run: pyinstaller --onefile --name nfe-scanner-server main.py
 
       - name: Publicar artefato
         uses: actions/upload-artifact@v4
