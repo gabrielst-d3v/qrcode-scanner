@@ -5,6 +5,7 @@
   "dependencies": {
     "expo": "~57.0.4",
     "expo-audio": "~57.0.2",
+    "expo-build-properties": "~57.0.6",
     "expo-camera": "~57.0.1",
     "expo-haptics": "~57.0.1",
     "expo-status-bar": "~57.0.0",
