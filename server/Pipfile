@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 flask = "*"
 pyautogui = "*"
+pywin32 = {version = "*", markers = "sys_platform == \"win32\""}
 
 [dev-packages]
 

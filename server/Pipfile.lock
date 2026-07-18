@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "08c48a9ea6c53ca53e3788ecbf0efd62a36a1d2ad921e8b5f9abb9c3f7ec1ab0"
+            "sha256": "a35cfb6005435ccb8ebf71824226187807e78cf0a3499c41a129308cc49c35cf"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -210,6 +210,10 @@
                 "sha256:243318b7736698066c5f362ec5c2b6434ecf4297c3c8e7caa8abfe6af4cac71b"
             ],
             "version": "==1.2.0"
+        },
+        "pywin32": {
+            "markers": "sys_platform == 'win32'",
+            "version": "*"
         },
         "werkzeug": {
             "hashes": [
